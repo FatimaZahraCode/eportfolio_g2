@@ -8,7 +8,7 @@ Route::get('/', [WelcomeController::class, 'getHome']);
 
 // ----------------------------------------
 Route::get('login', function () {
-    return view("auth.login");
+    return view('auth.login');
 });
 Route::get('logout', function () {
     return "Logout usuario";
@@ -16,22 +16,22 @@ Route::get('logout', function () {
 
 
 // ----------------------------------------
-Route::prefix('familias-profesionales')->group(function () {
-    Route::get('/', function () {
-        return view("familias-profesionales.index");
-    });
+Route::prefix('familias_profesionales')->group(function () {
 
-    Route::get('create', function () {
-        return view("familias-profesionales.create");
-    });
+   Route::get('/', [FamiliasProfesionalesController::class, 'getIndex']);
 
-    Route::get('/show/{id}', function ($id) {
-        return view("familias-profesionales.show",array('id'=>$id)) ;
-    }) -> where('id', '[0-9]+');
 
-    Route::get('/edit/{id}', function ($id) {
-        return view("familias-profesionales.edit",array('id'=>$id));
-    }) -> where('id', '[0-9]+');
+   Route::get('create', [FamiliasProfesionalesController::class, 'getCreate']);
+
+
+    Route::get('show/{id}',[FamiliasProfesionalesController::class,'getShow']) -> where('id', '[0-9]+');
+
+    Route::get('edit/{id}',[FamiliasProfesionalesController::class,'getEdit']) -> where('id', '[0-9]+');
+
+    Route::post('store',[FamiliasProfesionalesController::class,'store']);
+
+    Route::put('update/{id}',[FamiliasProfesionalesController::class,'update'])->where('id', '[0-9]+');
+
 });
 
 
