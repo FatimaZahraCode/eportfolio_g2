@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CriteriosEvaluacionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FamiliasProfesionalesController;
 
@@ -19,20 +20,19 @@ Route::get('logout', function () {
 // ----------------------------------------
 Route::prefix('familias_profesionales')->group(function () {
 
-   Route::get('/', [FamiliasProfesionalesController::class, 'getIndex']);
+    Route::get('/', [FamiliasProfesionalesController::class, 'getIndex']);
 
 
-   Route::get('create', [FamiliasProfesionalesController::class, 'getCreate']);
+    Route::get('create', [FamiliasProfesionalesController::class, 'getCreate']);
 
 
-    Route::get('show/{id}',[FamiliasProfesionalesController::class,'getShow']) -> where('id', '[0-9]+');
+    Route::get('show/{id}', [FamiliasProfesionalesController::class, 'getShow'])->where('id', '[0-9]+');
 
-    Route::get('edit/{id}',[FamiliasProfesionalesController::class,'getEdit']) -> where('id', '[0-9]+');
+    Route::get('edit/{id}', [FamiliasProfesionalesController::class, 'getEdit'])->where('id', '[0-9]+');
 
-    Route::post('store',[FamiliasProfesionalesController::class,'store']);
+    Route::post('store', [FamiliasProfesionalesController::class, 'store']);
 
-    Route::put('update/{id}',[FamiliasProfesionalesController::class,'update'])->where('id', '[0-9]+');
-
+    Route::put('update/{id}', [FamiliasProfesionalesController::class, 'update'])->where('id', '[0-9]+');
 });
 
 
@@ -41,5 +41,15 @@ Route::get('perfil/{id?}', function ($id = null) {
     if ($id === null)
         return 'Visualizar el usuario propio';
     return 'Visualizar el usuario de ' . $id;
-}) -> where('id', '[0-9]+');
+})->where('id', '[0-9]+');
+// ----------------------------------------
+Route::prefix('criterios_evaluacion')->group(function () {
 
+    Route::get('/', [CriteriosEvaluacionController::class, 'getIndex']);
+    Route::get('create', [CriteriosEvaluacionController::class, 'getCreate']);
+    Route::get('show/{id}', [CriteriosEvaluacionController::class, 'getShow'])->where('id', '[0-9]+');
+    Route::get('edit/{id}', [CriteriosEvaluacionController::class, 'getEdit'])->where('id', '[0-9]+');
+    Route::post('store', [CriteriosEvaluacionController::class, 'store']);
+    Route::put('update/{id}', [CriteriosEvaluacionController::class, 'update'])->where('id', '[0-9]+');
+});
+// ----------------------------------------
