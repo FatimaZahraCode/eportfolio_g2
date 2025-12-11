@@ -28,7 +28,7 @@ Route::get('perfil/{id?}', function ($id = null) {
     return 'Visualizar el currículo de ' . $id;
 })->where('id', '[0-9]+');
 // ----------------------------------------
-Route::prefix('familias_profesionales')->group(function () {
+Route::prefix('familias-profesionales')->group(function () {
 
     Route::get('/', [FamiliasProfesionalesController::class, 'getIndex']);
 
@@ -44,7 +44,7 @@ Route::prefix('familias_profesionales')->group(function () {
         Route::put('update/{id}', [FamiliasProfesionalesController::class, 'putCreate'])->where('id', '[0-9]+');
     });
 });
-Route::prefix('resultados_aprendizaje')->group(function () {
+Route::prefix('resultados-aprendizaje')->group(function () {
 
     Route::get('/', [ResultadosAprendizajeController::class, 'getIndex']);
     Route::get('show/{id}', [ResultadosAprendizajeController::class, 'getShow'])->where('id', '[0-9]+');
@@ -61,7 +61,7 @@ Route::prefix('resultados_aprendizaje')->group(function () {
 });
 // ----------------------------------------
 
-Route::prefix('ciclos_formativos')->group(function () {
+Route::prefix('ciclos-formativos')->group(function () {
 
     Route::get('/', [CiclosFormativosController::class, 'getIndex']);
     Route::get('show/{id}', [CiclosFormativosController::class, 'getShow'])->where('id', '[0-9]+');
@@ -78,7 +78,7 @@ Route::prefix('ciclos_formativos')->group(function () {
 });
 // ----------------------------------------
 
-Route::prefix('criterios_evaluacion')->group(function () {
+Route::prefix('criterios-evaluacion')->group(function () {
 
     Route::get('/', [CriteriosEvaluacionController::class, 'getIndex']);
     Route::get('show/{id}', [CriteriosEvaluacionController::class, 'getShow'])->where('id', '[0-9]+');
