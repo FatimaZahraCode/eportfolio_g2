@@ -1,6 +1,6 @@
 <nav id="nav">
     <ul>
-        <li><a href="{{route('home')}}">Home</a></li>
+        <li><a href="{{ route('home') }}">Home</a></li>
         <li>
             <a href="#">Layouts</a>
             <ul>
@@ -19,15 +19,34 @@
             </ul>
         </li>
         <li><a href="elements.html">Elements</a></li>
-        @guest
-            <li><a href=""{{ route('register') }}"" class="button primary">Sign Up</a></li>
-            <li><a href="{{ route('login') }}" class="button primary">Sign In</a></li>
-        @endguest
-        @auth
-            <li class="button primary">
-                @include('landed.partials.dropdown-user')
-            </li>
-        @endauth
+        @if (Route::has('login'))
+            @auth
+                <li>
+                    <a href="{{ url('/dashboard') }}"class="button primary">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    @include('landed.partials.dropdown-user')
+
+                </li>
+            @else
+                <li>
+                    <a href="{{ route('login') }}"
+                       class="button primary">
+                        Log in
+                    </a>
+                </li>
+                @if (Route::has('register'))
+                    <li>
+                        <a href="{{ route('register') }}"
+                           class="button primary">
+                            Register
+                        </a>
+                    </li>
+                @endif
+            @endauth
+        @endif
 
     </ul>
 </nav>
