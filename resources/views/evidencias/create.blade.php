@@ -31,12 +31,12 @@
                             <input type="text" name="url" id="url" class="form-control">
                         </div>
                          <div class="form-group">
-                            <label for="descripción">Descripcion</label>
-                            <input type="text" name="descripción" id="descripción" class="form-control">
+                            <label for="descripcion">Descripcion</label>
+                            <input type="text" name="descripcion" id="descripcion" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="estado_validacion">estado_validacion</label>
-                            <input type="text" name="estado_validacion" id="codigo">
+                            <input type="text" name="estado_validacion" id="estado_validacion" class="form-control">
                         </div>
 
                         <div class="form-group text-center">

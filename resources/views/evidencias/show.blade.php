@@ -12,12 +12,11 @@
             <h3><strong>Descripcion: </strong></h3>
             <p>{{ $evidencias->descripción }}</p>
             <h4><strong>tarea_id: </strong>
-               <p><a href="http://github.com/2DAW-CarlosIII/{{ $evidencias->tarea_id }}">
-                    http://github.com/2DAW-CarlosIII/{{ $evidencias->tarea_id }}
-                </a></p>
+               <p><a href="http://github.com/2DAW-CarlosIII/{{ $evidencias->tarea_id }}">{{ $evidencias->tarea_id }}</a></p>
             </h4>
             <h4><strong>Estudiante_id: </strong>{{ $evidencias->estudiante_id }}</h4>
             <h4><strong>Estado validacion: </strong>{{ $evidencias->estado_validacion }}</h4>
+            <h4><strong>Descripcion: </strong>{{ $evidencias->descripcion }}</h4>
         @auth
             <a class="btn btn-warning" href="{{ action([App\Http\Controllers\EvidenciasController::class, 'getEdit'], ($evidencias->id)) }}">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

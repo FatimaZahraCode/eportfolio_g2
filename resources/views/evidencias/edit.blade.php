@@ -3,7 +3,7 @@
 
 
     @section('content')
-  <h2>Editar evidencia de aprendizaje: {{$id}}</h2>
+  <h2>Editar evidencia de aprendizaje: {{ $evidencias->id}}</h2>
           <div class="row" style="margin-top:40px">
         <div class="offset-md-3 col-md-6">
             <div class="card">
@@ -29,8 +29,8 @@
                             <input type="text" name="url" id="url" class="form-control" value="{{$evidencias->url}}">
                         </div>
                         <div class="form-group">
-                            <label for="descripción">Descripcion</label>
-                            <input type="text" name="descripción" id="descripción" class="form-control"  value="{{$evidencias->descripción}}">
+                            <label for="descripcion">Descripcion</label>
+                            <input type="text" name="descripcion" id="descripcion" class="form-control"  value="{{$evidencias->descripcion}}">
                         </div>
                         <div class="form-group">
                             <label for="estado_validacion">estado_validacion</label>
