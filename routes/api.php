@@ -17,10 +17,12 @@ Route::prefix('v1')->group(function () {
 
 
     Route::apiResource('evidencias.comentarios', ComentarioController::class)->parameters([
+        'evidencias' => 'evidencia',
         'comentarios' => 'comentario'
     ]);
 
     Route::apiResource('evidencias.asignaciones-revision', AsignacionRevisionController::class)->parameters([
+        'evidencias' => 'evidencia',
         'asignaciones-revision' => 'asignacionRevision'
     ]);
 

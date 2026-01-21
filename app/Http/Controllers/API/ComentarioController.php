@@ -13,7 +13,7 @@ class ComentarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,Evidencias $evidencias)
+    public function index(Request $request,Evidencias $evidencia)
     {
             $query = Comentario::query();
             if ($query) {
@@ -21,7 +21,7 @@ class ComentarioController extends Controller
             }
 
             return ComentarioResource::collection(
-            Comentario::where('evidencia_id',$evidencias->evidencia_id)
+            Comentario::where('evidencia_id',$evidencia->evidencia_id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
@@ -29,11 +29,11 @@ class ComentarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,Evidencias $evidencia,Comentario $comentario)
     {
-        $comentario = json_decode($request->getContent(), true);
+        $comentarioData = json_decode($request->getContent(), true);
 
-        $comentario = Comentario::create($comentario);
+        $comentario = Comentario::create($comentarioData);
 
         return new ComentarioResource($comentario);
     }
@@ -41,7 +41,7 @@ class ComentarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Comentario $comentario)
+    public function show(Evidencias $evidencia,Comentario $comentario)
     {
          return new ComentarioResource($comentario);
     }
@@ -49,7 +49,7 @@ class ComentarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comentario $comentario)
+    public function update(Request $request, Evidencias $evidencia,Comentario $comentario)
     {
         $comentarioData = json_decode($request->getContent(), true);
         $comentario->update($comentarioData);

@@ -14,7 +14,7 @@ class AsignacionRevisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,Evidencias $evidencias)
+    public function index(Request $request,Evidencias $evidencia)
     {
          $query = AsignacionRevision::query();
             if ($query) {
@@ -22,19 +22,18 @@ class AsignacionRevisionController extends Controller
             }
 
             return AsignacionRevisionResource::collection(
-            AsignacionRevision::where('evidencia_id',$evidencias->evidencia_id)
-            ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-            ->paginate($request->perPage));
+            AsignacionRevision::where('evidencia_id',$evidencia->evidencia_id)
+            ->orderBy($request->sort ?? 'id', $request->order ?? 'asc')
+            ->paginate($request->per_page));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,Evidencias $evidencia,AsignacionRevision $asignacionRevision)
     {
-        $asignacionRevision = json_decode($request->getContent(), true);
-
-        $asignacionRevision = AsignacionRevision::create($asignacionRevision);
+        $asignacionRevisionData = json_decode($request->getContent(), true);
+        $asignacionRevision = AsignacionRevision::create($asignacionRevisionData);
 
         return new AsignacionRevisionResource($asignacionRevision);
     }
@@ -42,7 +41,7 @@ class AsignacionRevisionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AsignacionRevision $asignacionRevision,User $usuario)
+    public function show(Evidencias $evidencia,AsignacionRevision $asignacionRevision)
     {
          return new AsignacionRevisionResource($asignacionRevision);
 
@@ -69,7 +68,7 @@ class AsignacionRevisionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AsignacionRevision $asignacionRevision)
+    public function destroy(Evidencias $evidencia,AsignacionRevision $asignacionRevision)
     {
         try {
             $asignacionRevision->delete();
