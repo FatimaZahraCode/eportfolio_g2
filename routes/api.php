@@ -14,14 +14,21 @@ Route::middleware(['auth:sanctum'])->get('/user',function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('evidencias/{evidencia_id}')->group(function () {
 
-          Route::apiResource('comentarios', ComentarioController::class);
-          Route::apiResource('asignaciones-revision', AsignacionRevisionController::class);
-    });
+
+    Route::apiResource('evidencias.comentarios', ComentarioController::class)->parameters([
+        'comentarios' => 'comentario'
+    ]);
+
+    Route::apiResource('evidencias.asignaciones-revision', AsignacionRevisionController::class)->parameters([
+        'asignaciones-revision' => 'asignacionRevision'
+    ]);
+
     Route::get('users/{id}/asignaciones-revision', [AsignacionRevisionController::class,'getShow']);
 
-    Route::apiResource('criterios_tareas', CriterioTareaController::class);
+    Route::apiResource('criterios_tareas', CriterioTareaController::class)->parameters([
+        'criterios_tareas' => 'criterioTarea'
+    ]);
 
 });
 

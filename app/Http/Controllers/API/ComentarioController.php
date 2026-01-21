@@ -60,9 +60,10 @@ class ComentarioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comentario $comentario)
+    public function destroy(Evidencias $evidencia, Comentario $comentario)
     {
          try {
+            $comentario = Comentario::where('evidencia_id',$evidencia->id);
             $comentario->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
