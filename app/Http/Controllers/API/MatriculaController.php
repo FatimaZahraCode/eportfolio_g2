@@ -7,6 +7,7 @@ use App\Models\Matricula;
 use Illuminate\Http\Request;
 use App\Http\Resources\MatriculaResource;
 use App\Http\Resources\UserResource;
+use App\Models\ModuloFormativo;
 use App\Models\User;
 
 class MatriculaController extends Controller
@@ -14,28 +15,28 @@ class MatriculaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,$parent_id = null)
     {
-        $query = ModuloFormativo::query();
-        if($query) {
-            $query->orWhere('nombre', 'like', '%' .$request->q . '%');
+        $query = Matricula::query();
+        if ($request) {
+            $query->orWhere('id', 'like', '%' . $request->q . '%');
         }
 
-        return ModuloFormativo::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-            ->paginate($request->perPage)
-        );
         return MatriculaResource::collection(
-            Matricula::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-            ->paginate($request->perPage));
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+                ->paginate($request->perPage)
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,$parent_id)
+    public function store(Request $request, $parent_id = null)
     {
         $matricula = $request->all();
+        if ($parent_id) {
+            $matricula['modulo_formativo_id'] = $parent_id;
+        }
 
         $matricula['modulo_formativo_id'] = $parent_id;
 
@@ -47,29 +48,30 @@ class MatriculaController extends Controller
     /**
      * Display the specified resource.º
      */
-    public function show(Matricula $matricula)
+    public function show($parent_id=null, Matricula $id)
     {
-        return new MatriculaResource($matricula);
+        abort_if($id->modulo_formativo_id != $parent_id, 404, 'Matrícula no encontrada en el módulo formativo especificado.');
+        return new MatriculaResource($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Matricula $matricula)
+    public function update(Request $request, $parent_id=null, Matricula $id)
     {
         $matriculaData = json_decode($request->getContent(), true);
-        $matricula->update($matriculaData);
+        $id->update($matriculaData);
 
-        return new MatriculaResource($matricula);
+        return new MatriculaResource($id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Matricula $matricula)
+    public function destroy($parent_id=null, Matricula $id)
     {
         try {
-            $matricula->delete();
+            $id->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
             return response()->json([

@@ -15,18 +15,12 @@ class CriterioEvaluacionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ResultadoAprendizaje::query();
-        if ($query) {
-            $query->orWhere('nombre', 'like', '%' . $request->q . '%');
+       $query = CriterioEvaluacion::query();
+        if($request) {
+            $query->orWhere('id', 'like', '%' .$request->q . '%');
         }
-
-        return ResultadoAprendizaje::collection(
-            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
-                ->paginate($request->perPage)
-        );
-
         return CriterioEvaluacionResource::collection(
-            CriterioEvaluacion::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            $query->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
                 ->paginate($request->perPage)
         );
     }
@@ -48,29 +42,31 @@ class CriterioEvaluacionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CriterioEvaluacion $criterioEvaluacion)
+    public function show($parent_id,ResultadoAprendizaje $resultadoAprendizaje, CriterioEvaluacion $id)
     {
-        return new CriterioEvaluacionResource($criterioEvaluacion);
+        abort_if($id->resultado_aprendizaje_id != $resultadoAprendizaje->id, 404, 'Criterio de evaluación no encontrado en el resultado de aprendizaje especificado.');
+        return new CriterioEvaluacionResource($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CriterioEvaluacion $criterioEvaluacion)
+    public function update(Request $request, $parent_id=null, CriterioEvaluacion $id)
     {
         $criterioData = json_decode($request->getContent(), true);
-        $criterioEvaluacion->update($criterioData);
+        $id->update($criterioData);
 
-        return new CriterioEvaluacionResource($criterioEvaluacion);
+        return new CriterioEvaluacionResource($id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CriterioEvaluacion $criterioEvaluacion)
+    public function destroy($parent_id=null, CriterioEvaluacion $id)
     {
         try {
-            $criterioEvaluacion->delete();
+            abort_if($id->resultado_aprendizaje_id != $parent_id, 404, 'Criterio de evaluación no encontrado en el resultado de aprendizaje especificado.');
+            $id->delete();
             return response()->json(null, 204);
         } catch (\Exception $e) {
             return response()->json([
