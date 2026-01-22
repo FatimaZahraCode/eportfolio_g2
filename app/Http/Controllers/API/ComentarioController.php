@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ComentarioResource;
 use App\Models\Comentario;
+use App\Models\Evidencia;
 use App\Models\Evidencias;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,15 @@ class ComentarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,Evidencias $evidencia)
+    public function index(Request $request,Evidencia $evidencia,Comentario $comentario)
     {
-            $query = Comentario::query();
+            $query = Comentario::where('evidencia_id', $evidencia->id);
             if ($query) {
                 $query->orWhere('id', 'like', '%' . $request->q . '%');
             }
 
             return ComentarioResource::collection(
-            Comentario::where('evidencia_id',$evidencia->evidencia_id)
+            Comentario::where('evidencia_id',$evidencia->id)
             ->orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
             ->paginate($request->perPage));
     }
@@ -29,7 +30,7 @@ class ComentarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Evidencias $evidencia,Comentario $comentario)
+    public function store(Request $request,Evidencia $evidencia,Comentario $comentario)
     {
         $comentarioData = json_decode($request->getContent(), true);
 
@@ -41,7 +42,7 @@ class ComentarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Evidencias $evidencia,Comentario $comentario)
+    public function show(Evidencia $evidencia,Comentario $comentario)
     {
          return new ComentarioResource($comentario);
     }
@@ -49,7 +50,7 @@ class ComentarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Evidencias $evidencia,Comentario $comentario)
+    public function update(Request $request, Evidencia $evidencia, Comentario $comentario)
     {
         $comentarioData = json_decode($request->getContent(), true);
         $comentario->update($comentarioData);
@@ -60,7 +61,7 @@ class ComentarioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evidencias $evidencia, Comentario $comentario)
+    public function destroy(Evidencia $evidencia, Comentario $comentario)
     {
          try {
             $comentario = Comentario::where('evidencia_id',$evidencia->id);
